@@ -1,11 +1,12 @@
 import sys
+import jls
 
 
 def quit_program(args):
     quit()
 
 #define all the function to that can be execute
-dict_function = {"EXIT": quit_program}
+dict_function = {"EXIT": quit_program, "JLS": jls.jls_command}
 
 
 def main():
