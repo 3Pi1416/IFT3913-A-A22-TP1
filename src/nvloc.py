@@ -3,12 +3,12 @@ from pathlib import Path
 
 def nvloc_command(args):
     if len(args) != 1:
-        print("error....")
+        print("Error: nvloc takes one")
         return
     file = Path(args[0])
 
     if not file.is_file:
-        print("error....")
+        print(f"Error: {file.as_posix()} is not a file.")
         return
     nvloc(file)
 
