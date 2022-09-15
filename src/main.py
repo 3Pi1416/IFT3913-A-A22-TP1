@@ -1,13 +1,13 @@
 import sys
+import jls
 import nvloc
 
 
 def quit_program(args):
     quit()
 
-
 # define all the function to that can be execute
-dict_function = {"EXIT": quit_program, "NVLOC": nvloc_command}
+dict_function = {"EXIT": quit_program, "JLS": jls.jls_command, "NVLOC": nvloc.nvloc_command}
 
 
 def main():
