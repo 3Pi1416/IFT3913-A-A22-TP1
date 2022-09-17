@@ -3,7 +3,7 @@ from pathlib import Path
 
 def nvloc_command(args):
     if len(args) != 1:
-        print("Error: nvloc takes one")
+        print("Error: nvloc takes one argument.")
         return
     file = Path(args[0])
 

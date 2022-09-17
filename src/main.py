@@ -6,7 +6,8 @@ import nvloc
 def quit_program(args):
     quit()
 
-# define all the function to that can be execute
+
+# define all the functions to that can be executed
 dict_function = {"EXIT": quit_program, "JLS": jls.jls_command, "NVLOC": nvloc.nvloc_command}
 
 
