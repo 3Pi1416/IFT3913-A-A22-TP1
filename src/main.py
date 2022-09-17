@@ -14,7 +14,7 @@ def main():
     for line in sys.stdin:
         command, args = read_line(line)
         function_to_execute = dict_function.get(command.upper())
-        if (function_to_execute != None):
+        if function_to_execute is None:
             function_to_execute(args)
         else:
             print(f"{command} is not a valid command.")
