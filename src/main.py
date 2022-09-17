@@ -1,12 +1,14 @@
 import sys
 import jls
+import nvloc
 
 
 def quit_program(args):
     quit()
 
-#define all the functions to that can be executed
-dict_function = {"EXIT": quit_program, "JLS": jls.jls_command}
+
+# define all the functions to that can be executed
+dict_function = {"EXIT": quit_program, "JLS": jls.jls_command, "NVLOC": nvloc.nvloc_command}
 
 
 def main():
@@ -15,7 +17,7 @@ def main():
         function_to_execute = dict_function.get(command.upper())
         if function_to_execute is None:
             function_to_execute(args)
-        else :
+        else:
             print(f"{command} is not a valid command.")
 
 
