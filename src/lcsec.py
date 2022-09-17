@@ -34,15 +34,13 @@ def lcsec(path_folder: str, csv_file: Path):
             paths.append(row[0].replace(" ", ""))
             file_names.append(row[2].replace(" ", ""))
 
-    csec_values = [0] * len(paths)
+    csec_values = [0] * len(output)
 
-    for i in range(len(paths) - 1):
+    for i in range(len(paths)):
         for j in range(i+1, len(paths)):
             if mentions(path_folder, paths[i], file_names[j]) or mentions(path_folder, paths[j], file_names[i]):
                 csec_values[i] += 1
                 csec_values[j] += 1
-
-    for i in range(len(output)):
         output[i].append(" " + str(csec_values[i]))
 
     return output
