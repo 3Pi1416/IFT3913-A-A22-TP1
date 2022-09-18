@@ -22,6 +22,28 @@ def lcsec_command(args):
         print(",".join(row))
 
 
+def lcsec_csv_like(path_folder: Path, csv_like_list: list):
+    output = []
+    paths = []
+    file_names = []
+
+    for row in csv_like_list:
+        output.append(row)
+        paths.append(Path(row[0]))
+        file_names.append(row[2].replace(" ", ""))
+
+    csec_values = [0] * len(output)
+
+    for i in range(len(paths)):
+        for j in range(i + 1, len(paths)):
+            if mentions(path_folder, paths[i], file_names[j]) or mentions(path_folder, paths[j], file_names[i]):
+                csec_values[i] += 1
+                csec_values[j] += 1
+        output[i].append(" " + str(csec_values[i]))
+
+    return output
+
+
 def lcsec(path_folder: Path, csv_file: Path):
     output = []
     paths = []
@@ -42,7 +64,7 @@ def lcsec(path_folder: Path, csv_file: Path):
                 csec_values[i] += 1
                 csec_values[j] += 1
         output[i].append(" " + str(csec_values[i]))
-
+    print(output)
     return output
 
 
@@ -56,3 +78,7 @@ def mentions(path_folder: Path, file_path: Path, class_name: str):
                     return True
 
     return False
+
+
+# lcsec_command(["/Users/maggierobert/Desktop/IFT3913/IFT3913-A-A22-TP1/tests/ressources/lcsec/folder2", "/Users/maggierobert/Desktop/IFT3913/IFT3913-A-A22-TP1/tests/ressources/lcsec/test_csv.csv"])
+# lcsec_csv_like(Path("/Users/maggierobert/Desktop/IFT3913/IFT3913-A-A22-TP1/tests/ressources/lcsec/folder2"), [['./file1.java', '', 'file1'], ['./folder1/file2.java', 'folder1', 'file2'], ['./folder1/file3.java', 'folder1', 'file3']])

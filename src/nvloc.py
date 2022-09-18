@@ -10,7 +10,8 @@ def nvloc_command(args):
     if not file.is_file():
         print(f"Error: {file.as_posix()} is not a file.")
         return
-    nvloc(file)
+
+    print(nvloc(file))
 
 
 def nvloc(file: Path):
@@ -20,4 +21,7 @@ def nvloc(file: Path):
             if line.strip().replace("\n", ""):
                 number_of_line_filled += 1
                 
-    print(f"{number_of_line_filled}")
+    return number_of_line_filled
+
+
+# nvloc_command(["/Users/maggierobert/Desktop/IFT3913/IFT3913-A-A22-TP1/tests/ressources/lcsec/folder2/file1.java"])
