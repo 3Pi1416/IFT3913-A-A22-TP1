@@ -1,6 +1,7 @@
 import sys
 import jls
 import nvloc
+import lcsec
 
 
 def quit_program(args):
@@ -8,14 +9,18 @@ def quit_program(args):
 
 
 # define all the functions to that can be executed
-dict_function = {"EXIT": quit_program, "JLS": jls.jls_command, "NVLOC": nvloc.nvloc_command}
+dict_function = {"EXIT": quit_program,
+                 "JLS": jls.jls_command,
+                 "NVLOC": nvloc.nvloc_command,
+                 "LCSEC": lcsec.lcsec_command
+                 }
 
 
 def main():
     for line in sys.stdin:
         command, args = read_line(line)
         function_to_execute = dict_function.get(command.upper())
-        if function_to_execute is None:
+        if function_to_execute is not None:
             function_to_execute(args)
         else:
             print(f"{command} is not a valid command.")

@@ -20,4 +20,4 @@ def nvloc(file: Path):
             if line.strip().replace("\n", ""):
                 number_of_line_filled += 1
                 
-    print(f"NVLOC : {number_of_line_filled}")
+    print(f"{number_of_line_filled}")
