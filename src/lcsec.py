@@ -13,16 +13,16 @@ def lcsec_command(args):
         return
 
     csv_file = Path(args[1])
-    if not csv_file.is_file:
+    if not csv_file.is_file():
         print(f"Error: {csv_file.as_posix()} is not a file.")
         return
 
-    output = lcsec(args[0], csv_file)
+    output = lcsec(path_folder, csv_file)
     for row in output:
         print(",".join(row))
 
 
-def lcsec(path_folder: str, csv_file: Path):
+def lcsec(path_folder: Path, csv_file: Path):
     output = []
     paths = []
     file_names = []
@@ -31,7 +31,7 @@ def lcsec(path_folder: str, csv_file: Path):
         reader = csv.reader(csv_file)
         for row in reader:
             output.append(row)
-            paths.append(row[0].replace(" ", ""))
+            paths.append(Path(row[0]))
             file_names.append(row[2].replace(" ", ""))
 
     csec_values = [0] * len(output)
@@ -46,12 +46,12 @@ def lcsec(path_folder: str, csv_file: Path):
     return output
 
 
-def mentions(path_folder: str, file_path: str, class_name: str):
-    absolute_path = path_folder + file_path[1:]
+def mentions(path_folder: Path, file_path: Path, class_name: str):
+    absolute_path = Path.joinpath(path_folder, file_path)
 
     with open(absolute_path) as file:
         for line in file:
-            if line[0] != '/' and line[1] != '/':
+            if line[0] != '/' or line[1] != '/':
                 if class_name in line:
                     return True
 
