@@ -7,7 +7,7 @@ def nvloc_command(args):
         return
     file = Path(args[0])
 
-    if not file.is_file:
+    if not file.is_file():
         print(f"Error: {file.as_posix()} is not a file.")
         return
     nvloc(file)
