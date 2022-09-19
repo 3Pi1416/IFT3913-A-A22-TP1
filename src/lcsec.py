@@ -64,7 +64,7 @@ def lcsec(path_folder: Path, csv_file: Path):
                 csec_values[i] += 1
                 csec_values[j] += 1
         output[i].append(" " + str(csec_values[i]))
-    print(output)
+
     return output
 
 
@@ -79,6 +79,3 @@ def mentions(path_folder: Path, file_path: Path, class_name: str):
 
     return False
 
-
-# lcsec_command(["/Users/maggierobert/Desktop/IFT3913/IFT3913-A-A22-TP1/tests/ressources/lcsec/folder2", "/Users/maggierobert/Desktop/IFT3913/IFT3913-A-A22-TP1/tests/ressources/lcsec/test_csv.csv"])
-# lcsec_csv_like(Path("/Users/maggierobert/Desktop/IFT3913/IFT3913-A-A22-TP1/tests/ressources/lcsec/folder2"), [['./file1.java', '', 'file1'], ['./folder1/file2.java', 'folder1', 'file2'], ['./folder1/file3.java', 'folder1', 'file3']])
