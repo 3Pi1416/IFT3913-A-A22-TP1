@@ -11,7 +11,7 @@ class testNvloc(unittest.TestCase):
         present_folder = Path.cwd()
         path_to_test = Path.joinpath(present_folder,"tests", "ressources","nvloc", "test.java")
         nvloc.nvloc(path_to_test)
-        self.assertEqual(mock_print.getvalue().strip().replace("\n", ""), "NVLOC : 10")
+        self.assertEqual(mock_print.getvalue().strip().replace("\n", ""), "10")
 
 
 if __name__ == '__main__':
