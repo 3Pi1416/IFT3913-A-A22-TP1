@@ -22,6 +22,3 @@ def nvloc(file: Path):
                 number_of_line_filled += 1
                 
     return number_of_line_filled
-
-
-# nvloc_command(["/Users/maggierobert/Desktop/IFT3913/IFT3913-A-A22-TP1/tests/ressources/lcsec/folder2/file1.java"])
