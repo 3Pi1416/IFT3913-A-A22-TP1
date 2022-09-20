@@ -1,6 +1,6 @@
 from pathlib import Path
-
 from typing import List
+import csv
 
 
 def jls_command(args: List):
@@ -21,8 +21,11 @@ def jls_command(args: List):
     else:
         java_list(output, path_folder)
 
-    for row in output:
-        print(",".join(row))
+    with open("output/jls_output.csv", "w") as f:
+        write = csv.writer(f)
+        for row in output:
+            print(",".join(row))
+            write.writerow(row)
 
 
 def java_list(output: list, path_folder: Path, root: Path = None):
@@ -49,6 +52,4 @@ def add_csv_line(output: list, path_file: Path, default_path_folder: Path = None
         local_path_with_file_ext = path_file.relative_to(default_path_folder)
     list_local_path_file = local_path_with_file_ext.with_suffix("").as_posix().split("/")
     package = ".".join(list_local_path_file[0:-1])
-    output.append([f"./{local_path_with_file_ext.as_posix()}", f"{package}", f"{list_local_path_file[-1]}"])
-
-#jls_command(["/Users/maggierobert/Desktop/IFT3913/IFT3913-A-A22-TP1/tests/ressources/lcsec/folder2"])
+    output.append([f"./{local_path_with_file_ext.as_posix()}", f" {package}", f" {list_local_path_file[-1]}"])

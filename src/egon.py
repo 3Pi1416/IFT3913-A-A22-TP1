@@ -2,7 +2,7 @@ from pathlib import Path
 import jls
 import nvloc
 import lcsec
-import math
+import csv
 
 
 def egon_command(args):
@@ -29,14 +29,17 @@ def egon_command(args):
 
     indexes = find_god_classes(full_csv, threshold)
 
-    for index in indexes:
-        print(",".join(full_csv[index]))
+    with open("output/egon_output.csv", "w") as f:
+        write = csv.writer(f)
+        for index in indexes:
+            print(",".join(full_csv[index]))
+            write.writerow(full_csv[index])
 
 
 def get_full_csv(path_folder: Path):
     jls_output = []
     jls.java_list(jls_output, path_folder)
-    full_csv = lcsec.lcsec_csv_like(path_folder, jls_output)
+    full_csv = lcsec.lcsec_with_list(path_folder, jls_output)
 
     for row in full_csv:
         absolute_path = Path.joinpath(path_folder, Path(row[0]))
@@ -51,18 +54,15 @@ def find_god_classes(full_csv: list, threshold: int):
     nvloc_scores = []
 
     for i in range(len(full_csv)):
-        csec_scores.append([str(full_csv[i][3]), i])
-        nvloc_scores.append([str(full_csv[i][4]), i])
+        csec_scores.append([int(full_csv[i][3]), i])
+        nvloc_scores.append([int(full_csv[i][4]), i])
 
-    csec_indices = find_top_scores(csec_scores, threshold)
-    nvloc_indices = find_top_scores(nvloc_scores, threshold)
+    csec_indexes = find_top_scores(csec_scores, threshold)
+    nvloc_indexes = find_top_scores(nvloc_scores, threshold)
 
-    indices_to_print = list(set(csec_indices).intersection(nvloc_indices))
+    indexes_to_print = list(set(csec_indexes).intersection(nvloc_indexes))
 
-    for index in indices_to_print:
-        print(",".join(full_csv[index]))
-
-    return indexes
+    return indexes_to_print
 
 
 def find_top_scores(scores: list, threshold: int):
@@ -78,5 +78,5 @@ def find_top_scores(scores: list, threshold: int):
 
 
 def calculate_num_within_percentile(num_values: int, threshold: int):
-    return math.ceil(((threshold / 100) * num_values))
+    return round(((threshold / 100) * num_values))
 
