@@ -1,2 +1,5 @@
 # IFT3913-A-A22-TP1
-Premier Tp du cours de qualité du logiciel
+Hugo Carrier: 20197563
+
+Maggie Robert: 20182443
+

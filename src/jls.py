@@ -1,6 +1,6 @@
 from pathlib import Path
-
 from typing import List
+import csv
 
 
 def jls_command(args: List):
@@ -13,34 +13,43 @@ def jls_command(args: List):
         print(f"{path_folder} is not a folder")
         return
 
+    output = []
+
     if len(args) == 2:
-        root=Path(args[1])
-        java_list(path_folder, root)
+        root = Path(args[1])
+        java_list(output, path_folder, root)
     else:
-        java_list(path_folder)
+        java_list(output, path_folder)
+
+    with open("output/jls_output.csv", "w") as f:
+        write = csv.writer(f)
+        for row in output:
+            print(",".join(row))
+            write.writerow(row)
 
 
-def java_list(path_folder: Path, root: Path=None):
+def java_list(output: list, path_folder: Path, root: Path = None):
     """This function reads all files in folder.
        Shortcuts (links in linux) will crash it.
 
     Args:
+        output (list): stores results in order
         path_folder (Path): folder where to start
         root (Path, optional): Root of the folder for naming all the package. Defaults to path_folder.
     """
     if root is None:
-        root=path_folder
+        root = path_folder
 
     for file in path_folder.iterdir():
         if file.is_dir():
-            java_list(file, root)
+            java_list(output, file, root)
         else:
-            print_csv_line(file, root)
+            add_csv_line(output, file, root)
 
 
-def print_csv_line(path_file: Path, default_path_folder: Path=None) -> None:
+def add_csv_line(output: list, path_file: Path, default_path_folder: Path = None) -> None:
     if default_path_folder is not None:
-        local_path_with_file_ext=path_file.relative_to(default_path_folder)
-    list_local_path_file=local_path_with_file_ext.with_suffix("").as_posix().split("/")
-    package=".".join(list_local_path_file[0:-1])
-    print(f"./{local_path_with_file_ext.as_posix()}, {package}, {list_local_path_file[-1]}")
+        local_path_with_file_ext = path_file.relative_to(default_path_folder)
+    list_local_path_file = local_path_with_file_ext.with_suffix("").as_posix().split("/")
+    package = ".".join(list_local_path_file[0:-1])
+    output.append([f"./{local_path_with_file_ext.as_posix()}", f" {package}", f" {list_local_path_file[-1]}"])

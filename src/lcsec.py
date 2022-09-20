@@ -17,12 +17,29 @@ def lcsec_command(args):
         print(f"Error: {csv_file.as_posix()} is not a file.")
         return
 
-    output = lcsec(path_folder, csv_file)
-    for row in output:
-        print(",".join(row))
+    output = lcsec_with_csv(path_folder, csv_file)
+
+    with open("output/lcsec_output.csv", "w") as f:
+        write = csv.writer(f)
+        for row in output:
+            print(",".join(row))
+            write.writerow(row)
 
 
-def lcsec(path_folder: Path, csv_file: Path):
+def lcsec_with_list(path_folder: Path, csv_like_list: list):
+    output = []
+    paths = []
+    file_names = []
+
+    for row in csv_like_list:
+        output.append(row)
+        paths.append(Path(row[0]))
+        file_names.append(row[2].replace(" ", ""))
+
+    return get_csec_values(path_folder, paths, file_names, output)
+
+
+def lcsec_with_csv(path_folder: Path, csv_file: Path):
     output = []
     paths = []
     file_names = []
@@ -34,10 +51,14 @@ def lcsec(path_folder: Path, csv_file: Path):
             paths.append(Path(row[0]))
             file_names.append(row[2].replace(" ", ""))
 
+    return get_csec_values(path_folder, paths, file_names, output)
+
+
+def get_csec_values(path_folder: Path, paths: list, file_names: list, output: list):
     csec_values = [0] * len(output)
 
     for i in range(len(paths)):
-        for j in range(i+1, len(paths)):
+        for j in range(i + 1, len(paths)):
             if mentions(path_folder, paths[i], file_names[j]) or mentions(path_folder, paths[j], file_names[i]):
                 csec_values[i] += 1
                 csec_values[j] += 1

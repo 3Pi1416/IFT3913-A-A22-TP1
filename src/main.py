@@ -2,6 +2,7 @@ import sys
 import jls
 import nvloc
 import lcsec
+import egon
 
 
 def quit_program(args):
@@ -12,7 +13,8 @@ def quit_program(args):
 dict_function = {"EXIT": quit_program,
                  "JLS": jls.jls_command,
                  "NVLOC": nvloc.nvloc_command,
-                 "LCSEC": lcsec.lcsec_command
+                 "LCSEC": lcsec.lcsec_command,
+                 "EGON": egon.egon_command
                  }
 
 
