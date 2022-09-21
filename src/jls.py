@@ -21,7 +21,8 @@ def jls_command(args: List):
     else:
         java_list()
 
-    with open("output/jls_output.csv", "w") as f:
+    output_file = Path("output", "jls_output.csv")
+    with open(output_file, "w") as f:
         write = csv.writer(f)
         for row in output:
             print(",".join(row))
