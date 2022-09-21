@@ -31,6 +31,11 @@ def read_java_metric_from_csv(csv_file: Path) -> List[JavaMetric]:
 class JavaMetricLcsec(JavaMetric):
     lcsec: int = 0
 
+    def __init__(self, java_metric: JavaMetric):
+        self.path = java_metric.path
+        self.java_class = java_metric.java_class
+        self.package = java_metric.package
+
     def print(self):
         print(f"./{self.path},{self.package},{self.java_class},{self.lcsec}")
 

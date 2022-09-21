@@ -55,8 +55,7 @@ def get_csec_values(path_folder: Path, java_metric_list: List[JavaMetric]) -> Li
     java_metric_lcsec_list: [JavaMetricLcsec] = []
 
     for java_metric in java_metric_list:
-        new_java_metric = java_metric
-        new_java_metric.__class_ = JavaMetricLcsec
+        new_java_metric = JavaMetricLcsec(java_metric)
         java_metric_lcsec_list.append(new_java_metric)
 
     for i in range(len(java_metric_lcsec_list)):
