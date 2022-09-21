@@ -14,14 +14,12 @@ class TestJsl(unittest.TestCase):
         java_metric_test = JavaMetric(path=f"./{path_to_get.as_posix()}", package="ressources.jls", java_class="file1")
         self.assertEqual(java_metric_test, java_metric_receive)
 
-    def test_jls(self, mock_print):
+    def test_jls(self):
         present_folder = Path.cwd()
-        path_to_test = Path.joinpath(present_folder, "tests", "ressources", "jls")
-        jls.java_list()
+        path_to_test = Path.joinpath(present_folder, "ressources", "jls")
+        java_metric_list = jls.java_list(path_to_test,present_folder)
         # Windows and linux
-        self.assertEqual(mock_print.getvalue().strip().replace(
-            "\n", ""),
-            "./folder2/file1.java, folder2, file1./folder2/folder1/file2.java, folder2.folder1, file2./folder2/folder1/file3.java, folder2.folder1, file3")
+        self.assertEqual(len(java_metric_list), 3)
 
 
 if __name__ == '__main__':
