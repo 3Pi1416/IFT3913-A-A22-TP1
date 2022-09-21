@@ -2,7 +2,7 @@ from src import jls
 import unittest
 from pathlib import Path
 
-from src.javaMetric import javaMetric
+from src.JavaMetric import JavaMetric
 
 
 class TestJsl(unittest.TestCase):
@@ -11,7 +11,7 @@ class TestJsl(unittest.TestCase):
         path_to_test = Path.joinpath(present_folder, "ressources", "jls", "file1.java")
         java_metric_receive = jls.add_csv_line(path_to_test, present_folder)
         path_to_get = path_to_test.relative_to(present_folder)
-        java_metric_test = javaMetric(path=f"./{path_to_get.as_posix()}", package="ressources.jls", java_class="file1")
+        java_metric_test = JavaMetric(path=f"./{path_to_get.as_posix()}", package="ressources.jls", java_class="file1")
         self.assertEqual(java_metric_test, java_metric_receive)
 
     def test_jls(self, mock_print):

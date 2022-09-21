@@ -2,7 +2,8 @@ from pathlib import Path
 from typing import List
 import csv
 
-from src.javaMetric import javaMetric
+from src.JavaMetric import JavaMetric
+from dataclass_csv import DataclassWriter
 
 
 def jls_command(args: List):
@@ -17,20 +18,24 @@ def jls_command(args: List):
 
     if len(args) == 2:
         root = Path(args[1])
-        java_list(root)
+        java_metric_list = java_list(path_folder, root)
     else:
-        java_list()
+        java_metric_list = java_list(path_folder)
 
-    output_file = Path("output", "jls_output.csv")
-    with open(output_file, "w") as f:
-        write = csv.writer(f)
-        for row in output:
-            print(",".join(row))
-            write.writerow(row)
+    output_path = Path("output")
+    output_file = Path(output_path, "jls_output.csv")
+    output_path.mkdir(parents=True, exist_ok=True)
+
+    with open(output_file, "w") as file:
+        writer = DataclassWriter(file, java_metric_list, JavaMetric)
+        writer.write(True)
+
+    for java_metric in java_metric_list:
+        java_metric.print()
 
 
-def java_list(path_folder: Path, root: Path = None, java_metric_list: List[javaMetric] = List[javaMetric]) -> \
-        List[javaMetric]:
+
+def java_list(path_folder: Path, root: Path = None, java_metric_list: List[JavaMetric] = []) -> List[JavaMetric]:
     """This function reads all files in folder.
        Shortcuts (links in linux) will crash it.
 
@@ -52,12 +57,12 @@ def java_list(path_folder: Path, root: Path = None, java_metric_list: List[javaM
     return java_metric_list
 
 
-def add_csv_line(path_file: Path, default_path_folder: Path = None) -> javaMetric:
+def add_csv_line(path_file: Path, default_path_folder: Path = None) -> JavaMetric:
     local_path_with_file_ext = path_file
     if default_path_folder is not None:
         local_path_with_file_ext = path_file.relative_to(default_path_folder)
     list_local_path_file = local_path_with_file_ext.with_suffix("").as_posix().split("/")
     package = ".".join(list_local_path_file[0:-1])
-    java_metric = javaMetric(path=f"./{local_path_with_file_ext.as_posix()}", package=f"{package}",
+    java_metric = JavaMetric(path=f"./{local_path_with_file_ext.as_posix()}", package=f"{package}",
                              java_class=f"{list_local_path_file[-1]}")
     return java_metric
