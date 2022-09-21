@@ -34,7 +34,6 @@ def jls_command(args: List):
         java_metric.print()
 
 
-
 def java_list(path_folder: Path, root: Path = None, java_metric_list: List[JavaMetric] = []) -> List[JavaMetric]:
     """This function reads all files in folder.
        Shortcuts (links in linux) will crash it.
@@ -63,6 +62,6 @@ def add_csv_line(path_file: Path, default_path_folder: Path = None) -> JavaMetri
         local_path_with_file_ext = path_file.relative_to(default_path_folder)
     list_local_path_file = local_path_with_file_ext.with_suffix("").as_posix().split("/")
     package = ".".join(list_local_path_file[0:-1])
-    java_metric = JavaMetric(path=f"./{local_path_with_file_ext.as_posix()}", package=f"{package}",
+    java_metric = JavaMetric(path=local_path_with_file_ext, package=f"{package}",
                              java_class=f"{list_local_path_file[-1]}")
     return java_metric

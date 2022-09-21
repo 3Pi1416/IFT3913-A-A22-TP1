@@ -3,7 +3,7 @@ from src import nvloc
 from pathlib import Path
 
 
-class testNvloc(unittest.TestCase):
+class TestNvloc(unittest.TestCase):
     def test_nvloc(self):
         present_folder = Path.cwd()
         path_to_test = Path.joinpath(present_folder, "ressources", "nvloc", "test.java")
