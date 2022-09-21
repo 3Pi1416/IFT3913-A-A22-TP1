@@ -38,7 +38,7 @@ def egon_command(args):
 
 def get_full_csv(path_folder: Path):
     jls_output = []
-    jls.java_list(jls_output, path_folder)
+    jls.java_list(path_folder)
     full_csv = lcsec.lcsec_with_list(path_folder, jls_output)
 
     for row in full_csv:

@@ -1,5 +1,6 @@
 from pathlib import Path
 import csv
+import sys
 
 
 def lcsec_command(args):
@@ -37,7 +38,6 @@ def lcsec_with_list(path_folder: Path, csv_like_list: list):
         file_names.append(row[2].replace(" ", ""))
 
     return get_csec_values(path_folder, paths, file_names, output)
-
 
 def lcsec_with_csv(path_folder: Path, csv_file: Path):
     output = []
@@ -77,3 +77,7 @@ def mentions(path_folder: Path, file_path: Path, class_name: str):
                     return True
 
     return False
+
+   
+if __name__ == "__main__":
+    lcsec_command(sys.argv)
