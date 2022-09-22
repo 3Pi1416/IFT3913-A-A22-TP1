@@ -1,16 +1,17 @@
 import csv
+import sys
 from pathlib import Path
 from typing import List
 
-from src.JavaMetric import JavaMetric
 from src import jls
 from src import lcsec
 from src import nvloc
+from src.JavaMetric import JavaMetric
 
 
 def egon_command(args):
-    if len(args) != 2:
-        print("Error: egon takes two arguments.")
+    if len(args) < 2 or len(args) > 3:
+        print("Error: egon takes two or threes arguments.")
         return
 
     path_folder = Path(args[0])
@@ -29,15 +30,17 @@ def egon_command(args):
         return
 
     java_metric_god_classes = calculate_egon(path_folder, threshold)
+
     output_path = Path("output")
-    output_file = Path(output_path, "egon_output.csv")
+    output_file = Path(output_path, f"egon_output_{args[2]}{threshold}.csv")
     output_path.mkdir(parents=True, exist_ok=True)
     with open(output_file, "w", newline='') as file:
         writer = csv.writer(file)
-        writer.writerows([java_metric.to_row() for java_metric in java_metric_god_classes])
+        writer.writerows(
+            [java_metric.to_row(with_lcsec=True, with_nvloc=True) for java_metric in java_metric_god_classes])
 
     for java_metric in java_metric_god_classes:
-        java_metric.print(True, True)
+        java_metric.print(with_lcsec=True, with_nvloc=True)
 
 
 def calculate_egon(path_folder: Path, threshold: int):
@@ -72,3 +75,7 @@ def find_top_scores(scores: list, threshold: int) -> List[int]:
 
 def calculate_num_within_percentile(num_values: int, threshold: int) -> int:
     return round(((threshold / 100) * num_values))
+
+
+if __name__ == "__main__":
+    egon_command(sys.argv)

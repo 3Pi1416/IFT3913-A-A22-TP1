@@ -18,6 +18,7 @@ dict_function = {"EXIT": quit_program,
                  "EGON": egon.egon_command
                  }
 
+
 def main():
     for line in sys.stdin:
         command, args = read_line(line)

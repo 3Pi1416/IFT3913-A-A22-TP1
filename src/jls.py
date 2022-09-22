@@ -1,4 +1,5 @@
 import csv
+import sys
 from pathlib import Path
 from typing import List
 
@@ -6,7 +7,7 @@ from src.JavaMetric import JavaMetric
 
 
 def jls_command(args: List):
-    if len(args) == 0 or len(args) > 2:
+    if len(args) < 1 or len(args) > 2:
         print("Error: jls takes one or two arguments.")
         return
 
@@ -64,3 +65,7 @@ def add_csv_line(path_file: Path, default_path_folder: Path = None) -> JavaMetri
     java_metric = JavaMetric(path=local_path_with_file_ext, package=f"{package}",
                              java_class=f"{list_local_path_file[-1]}")
     return java_metric
+
+
+if __name__ == "__main__":
+    jls_command(sys.argv)
