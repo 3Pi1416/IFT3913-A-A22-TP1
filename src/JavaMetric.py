@@ -6,16 +6,25 @@ from pathlib import Path
 
 @dataclass
 class JavaMetric:
-    # jls: int = None
     path: Path
     package: str
     java_class: str
+    lcsec: int = 0
+    nvloc: int = 0
 
-    def print(self):
-        print(f"./{self.path.as_posix()},{self.package},{self.java_class}")
+    def to_row(self, with_lcsec=False, with_nvloc=False):
+        row = [f"./{self.path.as_posix()}", self.package, self.java_class]
+        if with_lcsec:
+            row.append(self.lcsec)
+        if with_nvloc:
+            row.append(self.nvloc)
+        return row
+
+    def print(self, with_lcsec=False, with_nvloc=False):
+        print(".".join(self.to_row(with_lcsec=with_lcsec, with_nvloc=with_nvloc)))
 
 
-def read_java_metric_from_csv(csv_file: Path) -> List[JavaMetric]:
+def read_java_metric_from_csv(csv_file: Path, with_lcsec=False, with_nvloc=False) -> List[JavaMetric]:
     java_metric_list: List[JavaMetric] = []
 
     with open(csv_file, 'r') as csv_file:
@@ -23,30 +32,12 @@ def read_java_metric_from_csv(csv_file: Path) -> List[JavaMetric]:
 
         for row in reader:
             java_metric = JavaMetric(Path(row[0]), row[1], row[2])
-            java_metric_list.append(java_metric)
-    return java_metric_list
-
-
-@dataclass
-class JavaMetricLcsec(JavaMetric):
-    lcsec: int = 0
-
-    def __init__(self, java_metric: JavaMetric):
-        self.path = java_metric.path
-        self.java_class = java_metric.java_class
-        self.package = java_metric.package
-
-    def print(self):
-        print(f"./{self.path},{self.package},{self.java_class},{self.lcsec}")
-
-
-def read_java_metric_lcsec_from_csv(csv_file: Path) -> List[JavaMetricLcsec]:
-    java_metric_list: List[JavaMetricLcsec] = []
-
-    with open(csv_file, 'r') as csv_file:
-        reader = csv.reader(csv_file)
-
-        for row in reader:
-            java_metric = JavaMetricLcsec(Path(row[0]), row[1], row[2], int(row[3]))
+            position = 3;
+            if with_lcsec:
+                java_metric.lcsec = row[position]
+                position += 1
+            if with_nvloc:
+                java_metric.nvloc = row[position]
+                
             java_metric_list.append(java_metric)
     return java_metric_list

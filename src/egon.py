@@ -1,8 +1,12 @@
 from pathlib import Path
+from typing import List
+
 import jls
 import nvloc
 import lcsec
 import csv
+
+from src import JavaMetric
 
 
 def egon_command(args):
@@ -25,58 +29,43 @@ def egon_command(args):
         print("Threshold: [" + f"{threshold}] is not between 1 and 99.")
         return
 
-    full_csv = get_full_csv(path_folder)
+    java_metric_list = jls.java_list(path_folder)
+    java_metric_list = lcsec.get_csec_values(path_folder, java_metric_list)
+    for java_metric in java_metric_list:
+        java_metric.nvloc = nvloc.nvloc(java_metric.path)
 
-    indexes = find_god_classes(full_csv, threshold)
+    java_metric_god_classes = find_god_classes(java_metric_list)
 
-    with open("output/egon_output.csv", "w") as f:
-        write = csv.writer(f)
-        for index in indexes:
-            print(",".join(full_csv[index]))
-            write.writerow(full_csv[index])
-
-
-def get_full_csv(path_folder: Path):
-    jls_output = []
-    jls.java_list(path_folder)
-    full_csv = lcsec.lcsec_with_list(path_folder, jls_output)
-
-    for row in full_csv:
-        absolute_path = Path.joinpath(path_folder, Path(row[0]))
-        row.append(" " + str(nvloc.nvloc(absolute_path)))
-
-    return full_csv
+    output_path = Path("output")
+    output_file = Path(output_path, "egon_output.csv")
+    output_path.mkdir(parents=True, exist_ok=True)
+    with open(output_file, "w", newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows([java_metric.to_row() for java_metric in java_metric_god_classes])
+        
+    for java_metric in java_metric_list:
+        java_metric.print(True, True)
 
 
-def find_god_classes(full_csv: list, threshold: int):
-    indexes = []
-    csec_scores = []
-    nvloc_scores = []
+def find_god_classes(java_metric_list: List[JavaMetric], threshold: int):
+    lcsec_indexes = find_top_scores([[java_metric_list[i].lcsec, i] for i in range(len(java_metric_list))], threshold)
+    nvloc_indexes = find_top_scores([[java_metric_list[i].nvloc, i] for i in range(len(java_metric_list))], threshold)
 
-    for i in range(len(full_csv)):
-        csec_scores.append([int(full_csv[i][3]), i])
-        nvloc_scores.append([int(full_csv[i][4]), i])
-
-    csec_indexes = find_top_scores(csec_scores, threshold)
-    nvloc_indexes = find_top_scores(nvloc_scores, threshold)
-
-    indexes_to_print = list(set(csec_indexes).intersection(nvloc_indexes))
-
-    return indexes_to_print
+    indexes_to_print = list(set(lcsec_indexes).intersection(nvloc_indexes))
+    god_class_list = List[JavaMetric] = []
+    for index in indexes_to_print:
+        god_class_list.append(java_metric_list[index])
+    return god_class_list
 
 
 def find_top_scores(scores: list, threshold: int):
     indexes = []
-
     scores.sort(reverse=True)
     num_above_threshold = calculate_num_within_percentile(len(scores), threshold)
-
     for i in range(num_above_threshold):
         indexes.append(scores[i][1])
-
     return indexes
 
 
 def calculate_num_within_percentile(num_values: int, threshold: int):
     return round(((threshold / 100) * num_values))
-
