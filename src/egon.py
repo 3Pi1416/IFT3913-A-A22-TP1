@@ -3,10 +3,10 @@ import sys
 from pathlib import Path
 from typing import List
 
-from src import jls
-from src import lcsec
-from src import nvloc
-from src.JavaMetric import JavaMetric
+import jls
+import lcsec
+import nvloc
+from JavaMetric import JavaMetric
 
 
 def egon_command(args):
@@ -78,4 +78,4 @@ def calculate_num_within_percentile(num_values: int, threshold: int) -> int:
 
 
 if __name__ == "__main__":
-    egon_command(sys.argv)
+    egon_command(sys.argv[1:])

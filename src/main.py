@@ -7,7 +7,7 @@ import nvloc
 
 
 def quit_program(args):
-    quit()
+    sys.exit()
 
 
 # define all the functions to that can be executed

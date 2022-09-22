@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 from typing import List
 
-from src.JavaMetric import JavaMetric, read_java_metric_from_csv
+from JavaMetric import JavaMetric, read_java_metric_from_csv
 
 
 def lcsec_command(args):
@@ -60,4 +60,4 @@ def mentions(path_folder: Path, file_path: Path, class_name: str):
 
 
 if __name__ == "__main__":
-    lcsec_command(sys.argv)
+    lcsec_command(sys.argv[1:])

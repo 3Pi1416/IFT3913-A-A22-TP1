@@ -26,4 +26,4 @@ def nvloc(file: Path):
 
 
 if __name__ == "__main__":
-    nvloc_command(sys.argv)
+    nvloc_command(sys.argv[1:])

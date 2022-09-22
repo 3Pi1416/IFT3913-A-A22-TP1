@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 from typing import List
 
-from src.JavaMetric import JavaMetric
+from JavaMetric import JavaMetric
 
 
 def jls_command(args: List):
@@ -68,4 +68,4 @@ def add_csv_line(path_file: Path, default_path_folder: Path = None) -> JavaMetri
 
 
 if __name__ == "__main__":
-    jls_command(sys.argv)
+    jls_command(sys.argv[1:])
