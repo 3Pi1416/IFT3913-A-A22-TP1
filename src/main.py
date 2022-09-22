@@ -1,8 +1,9 @@
 import sys
-import jls
-import nvloc
-import lcsec
+
 import egon
+import jls
+import lcsec
+import nvloc
 
 
 def quit_program(args):
@@ -16,7 +17,6 @@ dict_function = {"EXIT": quit_program,
                  "LCSEC": lcsec.lcsec_command,
                  "EGON": egon.egon_command
                  }
-
 
 def main():
     for line in sys.stdin:

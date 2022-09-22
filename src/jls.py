@@ -1,9 +1,8 @@
+import csv
 from pathlib import Path
 from typing import List
-import csv
 
 from src.JavaMetric import JavaMetric
-from dataclass_csv import DataclassWriter
 
 
 def jls_command(args: List):
@@ -27,8 +26,8 @@ def jls_command(args: List):
     output_path.mkdir(parents=True, exist_ok=True)
 
     with open(output_file, "w") as file:
-        writer = DataclassWriter(file, java_metric_list, JavaMetric)
-        writer.write(True)
+        writer = csv.writer(file)
+        writer.writerows([java_metric.to_row() for java_metric in java_metric_list])
 
     for java_metric in java_metric_list:
         java_metric.print()

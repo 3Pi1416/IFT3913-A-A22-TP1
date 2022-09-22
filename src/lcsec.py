@@ -1,7 +1,6 @@
-from pathlib import Path
 import csv
 import sys
-
+from pathlib import Path
 from typing import List
 
 from src.JavaMetric import JavaMetric, read_java_metric_from_csv
@@ -31,10 +30,10 @@ def lcsec_command(args):
 
     with open(output_file, "w", newline='') as file:
         writer = csv.writer(file)
-        writer.writerows([java_metric.to_row() for java_metric in java_metric_list])
+        writer.writerows([java_metric.to_row(with_lcsec=True) for java_metric in java_metric_list])
 
     for java_metric in java_metric_list:
-        java_metric.print()
+        java_metric.print(with_lcsec=True)
 
 
 def get_csec_values(path_folder: Path, java_metric_list: List[JavaMetric]) -> List[JavaMetric]:
