@@ -1,12 +1,13 @@
 import sys
-import jls
-import nvloc
-import lcsec
+
 import egon
+import jls
+import lcsec
+import nvloc
 
 
 def quit_program(args):
-    quit()
+    sys.exit()
 
 
 # define all the functions to that can be executed

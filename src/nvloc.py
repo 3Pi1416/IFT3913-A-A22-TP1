@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 
@@ -20,5 +21,9 @@ def nvloc(file: Path):
         for line in open_file:
             if line.strip().replace("\n", ""):
                 number_of_line_filled += 1
-                
+
     return number_of_line_filled
+
+
+if __name__ == "__main__":
+    nvloc_command(sys.argv[1:])
