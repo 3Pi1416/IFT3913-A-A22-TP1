@@ -22,7 +22,7 @@ def lcsec_command(args):
         return
 
     java_metric_list = read_java_metric_from_csv(csv_file)
-    java_metric_list = get_csec_values(path_folder, java_metric_list)
+    java_metric_list = calculate_lcsec_values(path_folder, java_metric_list)
 
     output_path = Path("output")
     output_file = Path(output_path, "lcsec_output.csv")
@@ -36,13 +36,20 @@ def lcsec_command(args):
         java_metric.print(with_lcsec=True)
 
 
-def get_csec_values(path_folder: Path, java_metric_list: List[JavaMetric]) -> List[JavaMetric]:
-    for i in range(len(java_metric_list)):
-        for j in range(i + 1, len(java_metric_list)):
-            if mentions(path_folder, java_metric_list[i].path, java_metric_list[j].java_class) \
-                    or mentions(path_folder, java_metric_list[j].path, java_metric_list[i].java_class):
-                java_metric_list[i].lcsec += 1
-                java_metric_list[j].lcsec += 1
+def calculate_lcsec_values(path_folder: Path, java_metric_list: List[JavaMetric]) -> List[JavaMetric]:
+    tuple_metric_list = []
+    for java_metric in java_metric_list:
+        tuple_metric_list.append((java_metric, set()))
+
+    for i in range(len(tuple_metric_list)):
+        for j in range(i + 1, len(tuple_metric_list)):
+            if mentions(path_folder, tuple_metric_list[i][0].path, tuple_metric_list[j][0].java_class) \
+                    or mentions(path_folder, tuple_metric_list[j][0].path, tuple_metric_list[i][0].java_class):
+                tuple_metric_list[i][1].add(tuple_metric_list[j][0].java_class)
+                tuple_metric_list[j][1].add(tuple_metric_list[i][0].java_class)
+
+    for tuple_metric in tuple_metric_list:
+        tuple_metric[0].lcsec = len(tuple_metric[1])
 
     return java_metric_list
 

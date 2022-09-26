@@ -14,10 +14,11 @@ class JavaMetric:
 
     def to_row(self, with_lcsec=False, with_nvloc=False):
         row = [f"./{self.path.as_posix()}", self.package, self.java_class]
-        if with_nvloc:
-            row.append(str(self.nvloc))
         if with_lcsec:
             row.append(str(self.lcsec))
+        if with_nvloc:
+            row.append(str(self.nvloc))
+
         return row
 
     def print(self, with_lcsec=False, with_nvloc=False):

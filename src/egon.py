@@ -29,10 +29,14 @@ def egon_command(args):
         print("Threshold: [" + f"{threshold}] is not between 1 and 99.")
         return
 
+    file_name = ""
+    if len(args) == 3:
+        file_name = args[2]
+
     java_metric_god_classes = calculate_egon(path_folder, threshold)
 
     output_path = Path("output")
-    output_file = Path(output_path, f"egon_output_{args[2]}{threshold}.csv")
+    output_file = Path(output_path, f"egon_output_{file_name}{threshold}.csv")
     output_path.mkdir(parents=True, exist_ok=True)
     with open(output_file, "w", newline='') as file:
         writer = csv.writer(file)
@@ -45,7 +49,7 @@ def egon_command(args):
 
 def calculate_egon(path_folder: Path, threshold: int):
     java_metric_list: List[JavaMetric] = jls.java_list(path_folder)
-    java_metric_list = lcsec.get_csec_values(path_folder, java_metric_list)
+    java_metric_list = lcsec.calculate_lcsec_values(path_folder, java_metric_list)
     for java_metric in java_metric_list:
         java_metric.nvloc = nvloc.nvloc(path_folder.joinpath(java_metric.path))
 
