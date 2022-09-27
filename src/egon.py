@@ -10,6 +10,12 @@ from JavaMetric import JavaMetric
 
 
 def egon_command(args):
+    """
+    read arguments and call the real agon methods
+    Args:
+        args: arguments from command line
+
+    """
     if len(args) < 2 or len(args) > 3:
         print("Error: egon takes two or threes arguments.")
         return
@@ -47,9 +53,20 @@ def egon_command(args):
         java_metric.print(with_lcsec=True, with_nvloc=True)
 
 
-def calculate_egon(path_folder: Path, threshold: int):
+def calculate_egon(path_folder: Path, threshold: int) -> List[JavaMetric]:
+    """
+        Get basic information from classes in a folder.
+        If the number of line and the level of coupling of any classes pass the threshold ( both most pass it )
+        send back the information of these classes.
+    Args:
+        path_folder:path from a folder to start evaluate the classes.
+        threshold:threshold of the upper limit to extract the god classes form
+
+    Returns: List of god classes, if any
+
+    """
     java_metric_list: List[JavaMetric] = jls.java_list(path_folder)
-    java_metric_list = lcsec.calculate_lcsec_values(path_folder, java_metric_list)
+    java_metric_list = lcsec.calculate_csec_values(path_folder, java_metric_list)
     for java_metric in java_metric_list:
         java_metric.nvloc = nvloc.nvloc(path_folder.joinpath(java_metric.path))
 
@@ -58,6 +75,15 @@ def calculate_egon(path_folder: Path, threshold: int):
 
 
 def find_god_classes(java_metric_list: List[JavaMetric], threshold: int) -> List[JavaMetric]:
+    """
+
+    Args:
+        java_metric_list:  list of java class with metric in them.
+        threshold: threshold of the upper limit to extract the god classes form.
+
+    Returns: List of god classes, if any
+
+    """
     lcsec_indexes = find_top_scores([[java_metric_list[i].lcsec, i] for i in range(len(java_metric_list))], threshold)
     nvloc_indexes = find_top_scores([[java_metric_list[i].nvloc, i] for i in range(len(java_metric_list))], threshold)
 
@@ -69,6 +95,15 @@ def find_god_classes(java_metric_list: List[JavaMetric], threshold: int) -> List
 
 
 def find_top_scores(scores: list, threshold: int) -> List[int]:
+    """
+
+    Args:
+        scores: list of score to sort
+        threshold: % of the scores that most come out
+
+    Returns: initial position of the top % scores
+
+    """
     indexes: List[int] = []
     scores.sort(reverse=True)
     num_above_threshold = calculate_num_within_percentile(len(scores), threshold)

@@ -11,7 +11,7 @@ class Testlcsec(unittest.TestCase):
         path_to_test_csv = Path.joinpath(present_folder, "ressources", "lcsec", "test_csv.csv")
         path_of_test_java = Path.joinpath(present_folder, "ressources", "jls")
         data_from_csv = read_java_metric_from_csv(path_to_test_csv)
-        test = lcsec.calculate_lcsec_values(path_of_test_java, data_from_csv)
+        test = lcsec.calculate_csec_values(path_of_test_java, data_from_csv)
         self.assertEqual(test[0].lcsec, 2)
         self.assertEqual(test[1].lcsec, 1)
 

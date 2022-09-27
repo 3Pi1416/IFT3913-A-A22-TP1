@@ -7,6 +7,12 @@ from JavaMetric import JavaMetric, read_java_metric_from_csv
 
 
 def lcsec_command(args):
+    """
+    read arguments and call the real lsces methods
+    Args:
+        args: arguments from command line
+
+    """
     if len(args) != 2:
         print("Error: lcsec takes two arguments.")
         return
@@ -22,7 +28,7 @@ def lcsec_command(args):
         return
 
     java_metric_list = read_java_metric_from_csv(csv_file)
-    java_metric_list = calculate_lcsec_values(path_folder, java_metric_list)
+    java_metric_list = calculate_csec_values(path_folder, java_metric_list)
 
     output_path = Path("output")
     output_file = Path(output_path, "lcsec_output.csv")
@@ -36,7 +42,16 @@ def lcsec_command(args):
         java_metric.print(with_lcsec=True)
 
 
-def calculate_lcsec_values(path_folder: Path, java_metric_list: List[JavaMetric]) -> List[JavaMetric]:
+def calculate_csec_values(path_folder: Path, java_metric_list: List[JavaMetric]) -> List[JavaMetric]:
+    """
+    calculate the csec: Coupling of classes
+    Args:
+        path_folder: path from root folder
+        java_metric_list: list of java metric that need to be filled
+
+    Returns:  Update the javaMetric with lcsec
+
+    """
     tuple_metric_list = []
     for java_metric in java_metric_list:
         tuple_metric_list.append((java_metric, set()))
@@ -55,6 +70,16 @@ def calculate_lcsec_values(path_folder: Path, java_metric_list: List[JavaMetric]
 
 
 def mentions(path_folder: Path, file_path: Path, class_name: str):
+    """
+
+    Args:
+        path_folder: path from root folder
+        file_path: path of the filed to open, from path folder
+        class_name: Class name to look into the file
+
+    Returns: True if the class_name is the file, else false
+
+    """
     absolute_path = Path.joinpath(path_folder, file_path)
 
     with open(absolute_path) as file:

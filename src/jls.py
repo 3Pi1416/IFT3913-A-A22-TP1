@@ -7,6 +7,12 @@ from JavaMetric import JavaMetric
 
 
 def jls_command(args: List):
+    """
+    read arguments and call the real jls methods
+    Args:
+        args: arguments from command line
+
+    """
     if len(args) < 1 or len(args) > 2:
         print("Error: jls takes one or two arguments.")
         return
@@ -39,9 +45,9 @@ def java_list(path_folder: Path, root: Path = None, java_metric_list: List[JavaM
        Shortcuts (links in linux) will crash it.
 
     Args:
-        java_metric_list: for recursive or to call java_list on multiple path with same output
         path_folder (Path): folder where to start
         root (Path, optional): Root of the folder for naming all the package. Defaults to path_folder.
+        java_metric_list: for recursive or to call java_list on multiple path with same output
     """
 
     if root is None:
@@ -51,12 +57,21 @@ def java_list(path_folder: Path, root: Path = None, java_metric_list: List[JavaM
         if file.is_dir():
             java_metric_list = java_list(file, root, java_metric_list)
         else:
-            java_metric_list.append(add_csv_line(file, root))
+            java_metric_list.append(extract_java_jls(file, root))
 
     return java_metric_list
 
 
-def add_csv_line(path_file: Path, default_path_folder: Path = None) -> JavaMetric:
+def extract_java_jls(path_file: Path, default_path_folder: Path = None) -> JavaMetric:
+    """
+    register basic information from path
+    Args:
+        path_file: path to file to extract information
+        default_path_folder: if the path is relative to another one.
+
+    Returns:java_metric: path, package and name
+
+    """
     local_path_with_file_ext = path_file
     if default_path_folder is not None:
         local_path_with_file_ext = path_file.relative_to(default_path_folder)
