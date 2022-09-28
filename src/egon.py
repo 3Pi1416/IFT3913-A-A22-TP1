@@ -11,13 +11,13 @@ from JavaMetric import JavaMetric
 
 def egon_command(args):
     """
-    read arguments and call the real agon methods
+    Read arguments and call the egon methods
     Args:
         args: arguments from command line
 
     """
     if len(args) < 2 or len(args) > 3:
-        print("Error: egon takes two or threes arguments.")
+        print("Error: egon takes two or three arguments.")
         return
 
     path_folder = Path(args[0])
@@ -55,12 +55,12 @@ def egon_command(args):
 
 def calculate_egon(path_folder: Path, threshold: int) -> List[JavaMetric]:
     """
-        Get basic information from classes in a folder.
-        If the number of line and the level of coupling of any classes pass the threshold ( both most pass it )
-        send back the information of these classes.
+        Get basic information about Java classes in a folder.
+        If the number of lines and the level of coupling of any classes both pass the threshold then
+        send back the class information in a CSV format.
     Args:
-        path_folder:path from a folder to start evaluate the classes.
-        threshold:threshold of the upper limit to extract the god classes form
+        path_folder: path of a folder with classes to evaluate
+        threshold: defines which classes will be outputted -> classes must be in top {threshold}%
 
     Returns: List of god classes, if any
 
@@ -78,8 +78,8 @@ def find_god_classes(java_metric_list: List[JavaMetric], threshold: int) -> List
     """
 
     Args:
-        java_metric_list:  list of java class with metric in them.
-        threshold: threshold of the upper limit to extract the god classes form.
+        java_metric_list: list of java class with their metric.
+        threshold: defines which classes will be outputted -> classes must be in top {threshold}%
 
     Returns: List of god classes, if any
 
@@ -98,8 +98,8 @@ def find_top_scores(scores: list, threshold: int) -> List[int]:
     """
 
     Args:
-        scores: list of score to sort
-        threshold: % of the scores that most come out
+        scores: list of scores to sort
+        threshold: defines which scores will be selected -> scores must be in top {threshold}%
 
     Returns: initial position of the top % scores
 

@@ -8,7 +8,7 @@ from JavaMetric import JavaMetric, read_java_metric_from_csv
 
 def lcsec_command(args):
     """
-    read arguments and call the real lsces methods
+    Read arguments and call the lcsec methods
     Args:
         args: arguments from command line
 
@@ -44,12 +44,12 @@ def lcsec_command(args):
 
 def calculate_csec_values(path_folder: Path, java_metric_list: List[JavaMetric]) -> List[JavaMetric]:
     """
-    calculate the csec: Coupling of classes
+    Calculate the csec score: Coupling of classes
     Args:
         path_folder: path from root folder
-        java_metric_list: list of java metric that need to be filled
+        java_metric_list: list of java metric to be filled
 
-    Returns:  Update the javaMetric with lcsec
+    Returns:  Update the javaMetric with lcsec score
 
     """
     tuple_metric_list = []
@@ -75,7 +75,7 @@ def mentions(path_folder: Path, file_path: Path, class_name: str):
     Args:
         path_folder: path from root folder
         file_path: path of the filed to open, from path folder
-        class_name: Class name to look into the file
+        class_name: class name to search in the file
 
     Returns: True if the class_name is the file, else false
 

@@ -4,7 +4,7 @@ from pathlib import Path
 
 def nvloc_command(args):
     """
-    read arguments and call the real nvloc methods
+    Read arguments and call the nvloc methods
     Args:
         args: arguments from command line
 
@@ -25,9 +25,9 @@ def nvloc(file: Path) -> int:
     """
 
     Args:
-        file: path to file to count its line number.
+        file: path to a file to count the number of lines
 
-    Returns: number of none empty line
+    Returns: number of non-empty lines
 
     """
     number_of_line_filled = 0

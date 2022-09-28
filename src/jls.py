@@ -8,7 +8,7 @@ from JavaMetric import JavaMetric
 
 def jls_command(args: List):
     """
-    read arguments and call the real jls methods
+    Read arguments and call the jls methods
     Args:
         args: arguments from command line
 
@@ -41,13 +41,13 @@ def jls_command(args: List):
 
 
 def java_list(path_folder: Path, root: Path = None, java_metric_list: List[JavaMetric] = []) -> List[JavaMetric]:
-    """This function reads all files in folder.
+    """This function reads all the files in a folder.
        Shortcuts (links in linux) will crash it.
 
     Args:
-        path_folder (Path): folder where to start
-        root (Path, optional): Root of the folder for naming all the package. Defaults to path_folder.
-        java_metric_list: for recursive or to call java_list on multiple path with same output
+        path_folder (Path): folder containing files to read
+        root (Path, optional): Root of the folder for the naming the packages. Defaults to path_folder.
+        java_metric_list: for recursive function or to call java_list on multiple path with same output
     """
 
     if root is None:
@@ -64,9 +64,9 @@ def java_list(path_folder: Path, root: Path = None, java_metric_list: List[JavaM
 
 def extract_java_jls(path_file: Path, default_path_folder: Path = None) -> JavaMetric:
     """
-    register basic information from path
+    Register basic information from path
     Args:
-        path_file: path to file to extract information
+        path_file: path to file to extract information from
         default_path_folder: if the path is relative to another one.
 
     Returns:java_metric: path, package and name
