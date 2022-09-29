@@ -56,7 +56,7 @@ def java_list(path_folder: Path, root: Path = None, java_metric_list: List[JavaM
     for file in path_folder.iterdir():
         if file.is_dir():
             java_metric_list = java_list(file, root, java_metric_list)
-        else:
+        elif file.suffix.upper() != "JAVA":
             java_metric_list.append(extract_java_jls(file, root))
 
     return java_metric_list

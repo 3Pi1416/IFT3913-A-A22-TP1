@@ -14,8 +14,8 @@ def nvloc_command(args):
         return
     file = Path(args[0])
 
-    if not file.is_file():
-        print(f"Error: {file.as_posix()} is not a file.")
+    if not file.is_file() and file.suffix.upper() != "JAVA":
+        print(f"Error: {file.as_posix()} is not a java file.")
         return
 
     print(nvloc(file))
