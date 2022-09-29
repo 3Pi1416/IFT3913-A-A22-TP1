@@ -32,13 +32,14 @@ def read_java_metric_from_csv(csv_file: Path, with_lcsec=False, with_nvloc=False
         reader = csv.reader(csv_file)
 
         for row in reader:
-            java_metric = JavaMetric(Path(row[0]), row[1], row[2])
-            position = 3;
-            if with_lcsec:
-                java_metric.lcsec = row[position]
-                position += 1
-            if with_nvloc:
-                java_metric.nvloc = row[position]
+            if row:  # skip empty row.
+                java_metric = JavaMetric(Path(row[0]), row[1], row[2])
+                position = 3
+                if with_lcsec:
+                    java_metric.lcsec = row[position]
+                    position += 1
+                if with_nvloc:
+                    java_metric.nvloc = row[position]
 
             java_metric_list.append(java_metric)
     return java_metric_list
